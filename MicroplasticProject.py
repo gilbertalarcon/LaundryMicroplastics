@@ -43,13 +43,7 @@ B=255       # blue channel of bounding box line
 minArea=600
 objCount=0
 
-mask = np.zeros(img.shape[:2], dtype="uint8")
-cv2.rectangle(mask, (0, 90), (290, 450), 255, -1)
-cv2.imshow("Rectangular Mask", mask)
 
-masked = cv2.bitwise_and(img, img, mask=mask)
-cv2.imshow("Mask Applied to Image", masked)
-cv2.waitKey(0)
 
 contourList, hierarchy = cv2.findContours(threshIM, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 for objContour in contourList:
