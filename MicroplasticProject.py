@@ -11,8 +11,7 @@ import numpy as np
 
 
 
-
-path=r"C:/Users/gilbe/OneDrive/BIOL 667/ProjectImages/BC_210404_C_C_SL_L_Post.jpg"
+path=r"C:/Users/gilbe/OneDrive/BIOL 667/ProjectImages/poly_water3.jpg"
 img=cv2.imread(path)
 
 xRez=640; yRez=480;
@@ -31,7 +30,7 @@ xc=1082; yc=468;     # center of crop window
 vgaIM = cv2.resize(img, (xRez, yRez))
 
 # blur and threshold image
-thresh=100
+thresh=90
 blur=7
 grayIM = cv2.cvtColor(vgaIM, cv2.COLOR_BGR2GRAY)     # convert color to grayscale image
 blurIM=cv2.medianBlur(grayIM,blur)                 # blur image to fill in holes to make solid object
@@ -41,8 +40,16 @@ thick=2     # bounding box line thickness
 R=0         # red channel of bounding box line
 G=255       # green channel of bounding box line
 B=255       # blue channel of bounding box line
-minArea=100
+minArea=600
 objCount=0
+
+mask = np.zeros(img.shape[:2], dtype="uint8")
+cv2.rectangle(mask, (0, 90), (290, 450), 255, -1)
+cv2.imshow("Rectangular Mask", mask)
+
+masked = cv2.bitwise_and(img, img, mask=mask)
+cv2.imshow("Mask Applied to Image", masked)
+cv2.waitKey(0)
 
 contourList, hierarchy = cv2.findContours(threshIM, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 for objContour in contourList:
@@ -60,7 +67,7 @@ for objContour in contourList:
 
 
 cv2.imshow('vgaIM', vgaIM)
-
+print(objCount)
 
 
 
